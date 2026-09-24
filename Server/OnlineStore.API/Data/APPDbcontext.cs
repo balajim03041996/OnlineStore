@@ -3,10 +3,10 @@ using OnlineStore.API.Entities;
 
 namespace OnlineStore.API.Data
 {
-    public class APPDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         //constructor 
-        public APPDbContext(DbContextOptions<APPDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Product> Products => Set<Product>();
