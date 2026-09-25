@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using OnlineStore.API.Services;
+using OnlineStore.API.Middleware;
 
 // ============================================================
 // PART 1: BUILDER – register services in the DI container
@@ -30,7 +31,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();   // /scalar  -> browser UI to test the API
 }
 
-// (Step 4) app.UseMiddleware<ExceptionMiddleware>();  // first, so it catches everything
+app.UseMiddleware<ExceptionMiddleware>();  // first, so it catches everything
 app.UseHttpsRedirection();
 // (Step 5) app.UseCors(...);
 // (Step 9) app.UseAuthentication();
