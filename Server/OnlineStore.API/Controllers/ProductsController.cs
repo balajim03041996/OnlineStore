@@ -6,7 +6,7 @@ namespace OnlineStore.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductsController :ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
         public ProductsController(IProductService productService)
@@ -20,6 +20,8 @@ namespace OnlineStore.API.Controllers
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
+
+        [HttpGet]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -29,4 +31,5 @@ namespace OnlineStore.API.Controllers
             }
             return Ok(product);
         }
+    }
 }
