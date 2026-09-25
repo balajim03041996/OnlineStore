@@ -21,7 +21,7 @@ namespace OnlineStore.API.Controllers
             return Ok(products);
         }
 
-        [HttpGet]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
