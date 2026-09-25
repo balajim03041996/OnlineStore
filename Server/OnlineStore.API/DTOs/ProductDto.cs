@@ -1,5 +1,4 @@
-﻿using OnlineStore.API.Entities;
-
+﻿
 namespace OnlineStore.API.DTOs
 {
     public class ProductDto
