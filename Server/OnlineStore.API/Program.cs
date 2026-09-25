@@ -15,7 +15,16 @@ builder.Services.AddOpenApi();       // generates the OpenAPI (Swagger) JSON doc
 builder.Services.AddDbContext<OnlineStore.API.Data.AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
 builder.Services.AddScoped<IProductService, ProductService>();
-// (Step 5) builder.Services.AddCors(...)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactAPP", policy =>
+{
+    policy.WithOrigins("http://localhost:5173")   // only our React dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+
+});
+});
 // (Step 9) builder.Services.AddAuthentication(...)
 
 var app = builder.Build();
@@ -25,6 +34,7 @@ var app = builder.Build();
 // through these in ORDER, and the response flows back in reverse.
 // Order matters! (e.g. Authentication must come before Authorization)
 // ============================================================
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();              // /openapi/v1.json
@@ -33,7 +43,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionMiddleware>();  // first, so it catches everything
 app.UseHttpsRedirection();
-// (Step 5) app.UseCors(...);
+app.UseCors("AllowReactAPP");
 // (Step 9) app.UseAuthentication();
 app.UseAuthorization();
 
