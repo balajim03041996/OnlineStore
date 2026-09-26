@@ -2,8 +2,8 @@ const ProductCard = ({product}) => {
     return (
         <div>
             <h2>{product.name}</h2>
-            <p>{product.categoryName}</p>
-            <p> {product.price}</p>
+            <p style={{color:"blue"}} >{product.categoryName}</p>
+            <p style={{color: "darkgreen"}}> {product.price}</p>
         </div>);
 };
 
