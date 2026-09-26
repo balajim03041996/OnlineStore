@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getProducts } from '../api/productsApi';
 import ProductCard from '../components/ProductCard';
+import './ProductList.css';
 
 const ProductList = () => {
     const [products, setproducts] = useState([]);
@@ -21,10 +22,10 @@ const ProductList = () => {
     }
     return (
         <div>
-            <h1 style={{color:"blueviolet"}}>Products</h1>
-            {products.map((x => (
+            <h1 style={{ color: "blueviolet" }}>Products</h1>
+            <div  className="product-grid">{products.map((x => (
                 <ProductCard key={x.id} product={x} />
-            )))}
+            )))}</div>
         </div>
     );
 }
