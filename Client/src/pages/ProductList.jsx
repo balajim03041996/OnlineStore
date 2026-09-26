@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getProducts } from '../api/productsApi';
+import ProductCard from '../components/ProductCard';
 
 const ProductList = () => {
     const [products, setproducts] = useState([]);
@@ -16,20 +17,14 @@ const ProductList = () => {
         return <p> Loading Products</p>
     }
     if (error) {
-        return <p style={{color:'red'}}> Error: {error} </p>;
+        return <p style={{ color: 'red' }}> Error: {error} </p>;
     }
     return (
         <div>
             <h1>Products</h1>
-            <ul>
-                {
-                    products.map((x => (
-                        <li key={x.id}>
-                            <strong>{x.name}</strong> - {x.categoryName} - {x.price}
-                        </li>
-                    )))
-                }
-            </ul>
+            {products.map((x => (
+                <ProductCard key={x.id} product={x} />
+            )))}
         </div>
     );
 }
