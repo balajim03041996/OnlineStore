@@ -10,5 +10,7 @@ namespace OnlineStore.API.Services
         Task<ProductDto?> CreateProductAsync(CreateProductDto createProductDto);
 
         Task<bool> DeleteProductAsync(int id);
+
+        Task<ProductDto?> UpdateProductAsync(int id, UpdateProductDto updateProductDto);
     }
 }
