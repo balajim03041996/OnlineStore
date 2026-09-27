@@ -41,7 +41,7 @@ namespace OnlineStore.API.Services
         }
         public async Task<ProductDto?> CreateProductAsync(CreateProductDto createProductDto)
         {
-            var categoryExists = await _DBContect.Categories.AnyAsync(x=> x.Id== createProductDto.CategoryId);
+            var categoryExists = await _DBContect.Categories.AnyAsync(x => x.Id == createProductDto.CategoryId);
             if (!categoryExists)
             {
                 return null;
@@ -71,6 +71,29 @@ namespace OnlineStore.API.Services
             _DBContect.Products.Remove(product);
             await _DBContect.SaveChangesAsync();
             return true;
+        }
+        public async Task<ProductDto?> UpdateProductAsync(int id, UpdateProductDto updateProductDto)
+        {
+            var product = await _DBContect.Products.FindAsync(id);
+            if (product is null)
+            {
+                return null;
+            }
+            // Business rule: the new category must exist
+            var categoryExists = await _DBContect.Categories.AnyAsync(x=> x.Id == updateProductDto.CategoryId);
+            if (!categoryExists)
+            {
+                throw new ArgumentException($"Category {updateProductDto.CategoryId} does not exist.");
+            }
+            product.Name = updateProductDto.Name;
+            product.Description = updateProductDto.Description;
+            product.Price = updateProductDto.Price;
+            product.CategoryId = updateProductDto.CategoryId;
+            product.ImageUrl = updateProductDto.ImageUrl;
+            product.StockQuantity = updateProductDto.StockQuantity;
+
+            await _DBContect.SaveChangesAsync();
+            return await GetProductByIdAsync(product.Id);
         }
     }
 }
