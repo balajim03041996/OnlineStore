@@ -10,3 +10,7 @@ export const getProductById = async (id) => {
     const response = await api.get(`/products/${id}`);
     return response.data;   // axios puts json body in data.
 }
+ export const createProduct = async (product) => {
+    const response = await api.post("/products", product);
+    return response.data;  //created product with new id
+}
