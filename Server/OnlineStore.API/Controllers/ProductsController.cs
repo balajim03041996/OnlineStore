@@ -42,5 +42,16 @@ namespace OnlineStore.API.Controllers
             }
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);// for post 201 with location header
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var deleted = await _productService.DeleteProductAsync(id);
+            if (deleted)
+            {
+                return NoContent();//// 204 – success, nothing to send back
+            }
+            return NotFound();
+        }
     }
 }

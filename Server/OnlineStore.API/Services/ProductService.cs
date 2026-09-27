@@ -59,8 +59,18 @@ namespace OnlineStore.API.Services
             await _DBContect.SaveChangesAsync();
 
             return await GetProductByIdAsync(product.Id);
+        }
 
-
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var product = await _DBContect.Products.FindAsync(id);
+            if (product is null)
+            {
+                return false;
+            }
+            _DBContect.Products.Remove(product);
+            await _DBContect.SaveChangesAsync();
+            return true;
         }
     }
 }
