@@ -29,7 +29,7 @@ namespace OnlineStore.API.Services
         {
             return await _DBContect.Products.AsNoTracking().Where(a => a.Id == id).Select(b => new ProductDto
             {
-                Id= b.Id,
+                Id = b.Id,
                 Name = b.Name,
                 Description = b.Description,
                 CategoryId = b.CategoryId,
@@ -38,6 +38,29 @@ namespace OnlineStore.API.Services
                 StockQuantity = b.StockQuantity,
                 ImageUrl = b.ImageUrl
             }).FirstOrDefaultAsync();
+        }
+        public async Task<ProductDto?> CreateProductAsync(CreateProductDto createProductDto)
+        {
+            var categoryExists = await _DBContect.Categories.AnyAsync(x=> x.Id== createProductDto.CategoryId);
+            if (!categoryExists)
+            {
+                return null;
+            }
+            var product = new Entities.Product
+            {
+                Name = createProductDto.Name,
+                Description = createProductDto.Description,
+                Price = createProductDto.Price,
+                CategoryId = createProductDto.CategoryId,
+                ImageUrl = createProductDto.ImageUrl,
+                StockQuantity = createProductDto.StockQuantity
+            };
+            _DBContect.Products.Add(product);
+            await _DBContect.SaveChangesAsync();
+
+            return await GetProductByIdAsync(product.Id);
+
+
         }
     }
 }

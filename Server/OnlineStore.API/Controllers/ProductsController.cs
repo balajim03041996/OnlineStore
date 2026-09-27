@@ -31,5 +31,15 @@ namespace OnlineStore.API.Controllers
             }
             return Ok(product);
         }
-    }
+
+        [HttpPost]
+        public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createProductDto)
+        {
+            var product = await _productService.CreateProductAsync(createProductDto);
+            if(product is null)
+            {
+                return BadRequest();
+            }
+            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);// for post 201 with location header
+        }
 }
