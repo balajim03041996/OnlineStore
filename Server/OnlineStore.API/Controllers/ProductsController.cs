@@ -38,7 +38,7 @@ namespace OnlineStore.API.Controllers
             var product = await _productService.CreateProductAsync(createProductDto);
             if (product is null)
             {
-                return BadRequest();
+                return BadRequest($"Category {createProductDto.CategoryId} does not exist.");
             }
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);// for post 201 with location header
         }
