@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using OnlineStore.API.Services;
 using OnlineStore.API.Middleware;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // ============================================================
 // PART 1: BUILDER – register services in the DI container
@@ -15,6 +16,7 @@ builder.Services.AddOpenApi();       // generates the OpenAPI (Swagger) JSON doc
 builder.Services.AddDbContext<OnlineStore.API.Data.AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactAPP", policy =>
