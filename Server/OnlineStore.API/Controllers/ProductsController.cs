@@ -53,5 +53,23 @@ namespace OnlineStore.API.Controllers
             }
             return NotFound();
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<ProductDto>> UpdateProduct(int id, UpdateProductDto updateProductDto)
+        {
+            try
+            {
+                var product = await _productService.UpdateProductAsync(id, updateProductDto);
+                if (product is null)
+                {
+                    return NotFound();
+                }
+                return Ok(product);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
