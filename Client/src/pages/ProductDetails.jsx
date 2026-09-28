@@ -25,7 +25,7 @@ const ProductDetails = () => {
     }
     return (
         <div>
-            <img src={productDetail.imageUrl} alt={productDetail.name} style={{ maxWidth: '400px', width: '100%' }} />
+            <img src={productDetail.imageUrl || 'https://placehold.co/400x300?text=No+Image'} alt={productDetail.name} style={{ maxWidth: '400px', width: '100%' }} />
             <h1>{productDetail.name}</h1>
             <p>{productDetail.categoryName} </p>
             <p>{productDetail.description}</p>
