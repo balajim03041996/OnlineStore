@@ -46,8 +46,8 @@ const ProductDetails = () => {
             <p>{productDetail.description}</p>
             <h2>₹{productDetail.price}</h2>
             <p>{productDetail.stockQuantity}</p>
-            <button onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product</button>
-            <button onClick={handleDelete} >Delete product</button>
+            <button onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product </button>
+            <button onClick={handleDelete} > Delete product</button>
         </div >
     );
 };
