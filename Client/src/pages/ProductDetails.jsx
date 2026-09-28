@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../api/productsApi";
+import { deleteProduct } from "../api/productsApi";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -16,6 +18,20 @@ const ProductDetails = () => {
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
     }, [id]);
+    const navigate = useNavigate();
+    const handleDelete = async () => {
+        const ok = window.confirm(`Delete "${productDetail.name}" ? This cannot be undone.`);
+        if (!ok) {
+            return; // clicked cancelled
+        }
+        try {
+            await deleteProduct(productDetail.id);
+            navigate("/");
+
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     if (loading) {
         return <p> loading productdetails...</p>
@@ -31,6 +47,7 @@ const ProductDetails = () => {
             <p>{productDetail.description}</p>
             <h2>₹{productDetail.price}</h2>
             <p>{productDetail.stockQuantity}</p>
+            <button onClick={handleDelete} >Delete product</button>
         </div >
     );
 };
