@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../api/productsApi";
 import { deleteProduct } from "../api/productsApi";
-import { Navigate } from "react-router-dom";
 
 
 
@@ -47,6 +46,7 @@ const ProductDetails = () => {
             <p>{productDetail.description}</p>
             <h2>₹{productDetail.price}</h2>
             <p>{productDetail.stockQuantity}</p>
+            <button onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product</button>
             <button onClick={handleDelete} >Delete product</button>
         </div >
     );
