@@ -480,3 +480,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Visual Studio publish-generated Azure ARM templates (not needed for build)
+**/Properties/ServiceDependencies/
