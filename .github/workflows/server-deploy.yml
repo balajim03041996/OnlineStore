@@ -1,0 +1,32 @@
+name: Server CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Server/**'            # only run when server code changes
+      - '.github/workflows/server-deploy.yml'
+  workflow_dispatch:           # adds a manual "Run workflow" button
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish API
+        run: dotnet publish Server/OnlineStore.API/OnlineStore.API.csproj -c Release -o ./publish
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: app-onlinestore-balaji
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
