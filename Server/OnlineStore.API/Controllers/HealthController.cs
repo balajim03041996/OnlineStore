@@ -14,10 +14,5 @@ public class HealthController : ControllerBase
     {
         return Ok(new { status = "Healthy", time = DateTime.UtcNow });
     }
-    [HttpGet("error")]
-    public IActionResult ThrowError()
-    {
-        throw new Exception("Test exception from HealthController");
-    }
 
 }
