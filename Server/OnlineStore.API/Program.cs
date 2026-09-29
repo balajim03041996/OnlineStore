@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactAPP", policy =>
 {
-    policy.WithOrigins("http://localhost:5173")   // only our React dev server
+    policy.WithOrigins("http://localhost:5173", "https://salmon-dune-049de6200.1.azurestaticapps.net")   // // React dev + React on Azure.
               .AllowAnyHeader()
               .AllowAnyMethod();
 
