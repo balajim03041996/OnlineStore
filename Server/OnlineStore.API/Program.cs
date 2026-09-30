@@ -14,7 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();   // enables [ApiController] classes
 builder.Services.AddOpenApi();       // generates the OpenAPI (Swagger) JSON document
 builder.Services.AddDbContext<OnlineStore.API.Data.AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection"),
+    sql=> sql.EnableRetryOnFailure()));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddCors(options =>
