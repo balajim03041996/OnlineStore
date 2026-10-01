@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../api/productsApi";
 import { deleteProduct } from "../api/productsApi";
-
+import {useCart} from "../context/CartContext";
 
 
 const ProductDetails = () => {
@@ -18,6 +18,7 @@ const ProductDetails = () => {
             .finally(() => setLoading(false));
     }, [id]);
     const navigate = useNavigate();
+    const {addToCart}= useCart();
     const handleDelete = async () => {
         const ok = window.confirm(`Delete "${productDetail.name}" ? This cannot be undone.`);
         if (!ok) {
@@ -48,6 +49,7 @@ const ProductDetails = () => {
             <p>{productDetail.stockQuantity}</p>
             <button onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product </button>
             <button onClick={handleDelete} > Delete product</button>
+            <button onClick={()=> addToCart(productDetail)}>Add to Cart</button>
         </div >
     );
 };
