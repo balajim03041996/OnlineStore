@@ -12,6 +12,9 @@ const Navbar = () => {
                 <Link to="/add-product" >   Add Product</Link>
                 <span>Cart ({cartCount})</span>
             </div>
+            <div >
+                <Link to="/cart" > Cart</Link>
+            </div>
         </nav>
     );
 };
