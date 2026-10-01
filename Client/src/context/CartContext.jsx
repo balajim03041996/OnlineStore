@@ -4,11 +4,11 @@ import { createContext, useContext, useState } from "react";
 // build in method to use CartContext object as context object 
 const CartContext = createContext(null);
 // received children here so, they can acess ther belo defined methods 
-export const CartProvider = ({ children }) => { 
+export const CartProvider = ({ children }) => {
     //[ {product: iPhone, quantity: 2}, {product: Samsung, quantity: 1} ]
     const [items, setItems] = useState([]);
-//methods to  add item , if already threse jus add count 
-    const addToCart = (product) => { 
+    //methods to  add item , if already threse jus add count 
+    const addToCart = (product) => {
         setItems((prev) => {
             const existing = prev.find((x) => x.product.id === product.id);
             if (existing) {
@@ -24,10 +24,22 @@ export const CartProvider = ({ children }) => {
         setItems((prev) => prev.filter((x) => x.product.id !== productId));
     };
 
+    const decreaseQuantity = (productId) => {
+        const existing = items.find((x) => x.product.id === productId);
+        if (existing) {
+            if (existing.quantity === 1) {
+                removeFromCart(productId);
+            }
+            else if (existing.quantity > 1) {
+                setItems((previous) => previous.map((x) => x.product.id === productId ? { ...x, quantity: x.quantity - 1 } : x));
+            }
+        }
+    };
+
     const cartCount = items.reduce((sum, x) => sum + x.quantity, 0);// recalculate the total list count 
     return (
 
-        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount }}>{/*// this component will return a context object , we can include or wrap where we need to use inside */}
+        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, decreaseQuantity }}>{/*// this component will return a context object , we can include or wrap where we need to use inside */}
             {children}
         </CartContext.Provider>
     );
