@@ -37,9 +37,10 @@ export const CartProvider = ({ children }) => {
     };
 
     const cartCount = items.reduce((sum, x) => sum + x.quantity, 0);// recalculate the total list count 
+    const cartTotal = items.reduce((sum, x)=> sum + x.quantity * x.product.price,0);
     return (
 
-        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, decreaseQuantity }}>{/*// this component will return a context object , we can include or wrap where we need to use inside */}
+        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, decreaseQuantity , cartTotal}}>{/*// this component will return a context object , we can include or wrap where we need to use inside */}
             {children}
         </CartContext.Provider>
     );
