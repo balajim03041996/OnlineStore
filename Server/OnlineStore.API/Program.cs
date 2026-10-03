@@ -3,6 +3,9 @@ using Scalar.AspNetCore;
 using OnlineStore.API.Services;
 using OnlineStore.API.Middleware;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 // ============================================================
 // PART 1: BUILDER – register services in the DI container
@@ -28,7 +31,26 @@ builder.Services.AddCors(options =>
 
 });
 });
-// (Step 9) builder.Services.AddAuthentication(...)
+// JWT authentication: check every incoming token's issuer, audience, expiry and signature
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Jwt:Key is missing (user-secrets / Key Vault)");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ClockSkew = TimeSpan.FromMinutes(1)
+        };
+    });
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -47,7 +69,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();  // first, so it catches everything
 app.UseHttpsRedirection();
 app.UseCors("AllowReactAPP");
-// (Step 9) app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();              // route requests to controller actions
