@@ -21,12 +21,12 @@ const Login = () => {
         }
     };
     return (
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit} className="form-card">
             <h2> Admin login</h2>
             <input placeholder="UserName" value={userName} onChange={(e) => setUserName(e.target.value)} />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             <button type="submit">Login</button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="form-error">{error}</p>}
         </form >
     );
 
