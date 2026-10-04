@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.API.DTOs;
 using OnlineStore.API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineStore.API.Controllers
 {
@@ -32,6 +33,7 @@ namespace OnlineStore.API.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createProductDto)
         {
@@ -43,6 +45,7 @@ namespace OnlineStore.API.Controllers
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);// for post 201 with location header
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -54,6 +57,7 @@ namespace OnlineStore.API.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<ProductDto>> UpdateProduct(int id, UpdateProductDto updateProductDto)
         {

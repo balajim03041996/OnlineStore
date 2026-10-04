@@ -1,6 +1,24 @@
-@baseUrl = http://localhost:5120
+﻿@baseUrl = https://localhost:7284
 
-GET {{baseUrl}}/api/health
-Accept: application/json
+### 1) Public: anyone can view products → expect 200
+GET {{baseUrl}}/api/products
 
-###
+### 2) Delete WITHOUT a token → expect 401
+DELETE {{baseUrl}}/api/products/999
+
+### 3) Login with a WRONG password → expect 401
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "wrong" }
+
+### 4) Login with the RIGHT password → expect 200 + token
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "YOUR_REAL_PASSWORD" }
+
+### 5) Delete WITH the token → expect 404 (auth passed; product 999 doesn't exist)
+DELETE {{baseUrl}}/api/products/999
+Authorization: Bearer {{login.response.body.$.token}}
