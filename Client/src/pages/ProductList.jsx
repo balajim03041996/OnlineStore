@@ -15,14 +15,17 @@ const ProductList = () => {
             .finally(() => setLoading(false))
     }, []);
     if (loading) {
-        return <p> Loading Products</p>
+        return <p className="status"> Loading Products...</p>
     }
     if (error) {
-        return <p style={{ color: 'red' }}> Error: {error} </p>;
+        return <p className="status status-error"> Error: {error} </p>;
     }
     return (
         <div>
-            <h1 style={{ color: "blueviolet" }}>Products</h1>
+            <div className="page-header">
+                <h1>Products</h1>
+                <span className="product-count">{products.length} products</span>
+            </div>
             <div  className="product-grid">{products.map((x => (
                 <ProductCard key={x.id} product={x} />
             )))}</div>

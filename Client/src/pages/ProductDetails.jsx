@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../api/productsApi";
 import { deleteProduct } from "../api/productsApi";
 import {useCart} from "../context/CartContext";
+import "./ProductDetails.css";
 
 
 const ProductDetails = () => {
@@ -34,22 +35,26 @@ const ProductDetails = () => {
     };
 
     if (loading) {
-        return <p> loading productdetails...</p>
+        return <p className="status"> loading productdetails...</p>
     }
     if (error) {
-        return <p style={{ color: "red" }}> Error: {error}</p>
+        return <p className="status status-error"> Error: {error}</p>
     }
     return (
-        <div>
-            <img src={productDetail.imageUrl || 'https://placehold.co/400x300?text=No+Image'} alt={productDetail.name} style={{ maxWidth: '400px', width: '100%' }} />
-            <h1>{productDetail.name}</h1>
-            <p>{productDetail.categoryName} </p>
-            <p>{productDetail.description}</p>
-            <h2>₹{productDetail.price}</h2>
-            <p>{productDetail.stockQuantity}</p>
-            <button onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product </button>
-            <button onClick={handleDelete} > Delete product</button>
-            <button onClick={()=> addToCart(productDetail)}>Add to Cart</button>
+        <div className="details">
+            <img className="details-image" src={productDetail.imageUrl || 'https://placehold.co/400x300?text=No+Image'} alt={productDetail.name} />
+            <div className="details-info">
+                <span className="badge">{productDetail.categoryName}</span>
+                <h1>{productDetail.name}</h1>
+                <p className="details-description">{productDetail.description}</p>
+                <h2 className="details-price">₹{productDetail.price}</h2>
+                <p className="details-stock">{productDetail.stockQuantity > 0 ? `${productDetail.stockQuantity} in stock` : "Out of stock"}</p>
+                <div className="details-actions">
+                    <button onClick={()=> addToCart(productDetail)}>Add to Cart</button>
+                    <button className="btn-outline" onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product </button>
+                    <button className="btn-danger" onClick={handleDelete} > Delete product</button>
+                </div>
+            </div>
         </div >
     );
 };

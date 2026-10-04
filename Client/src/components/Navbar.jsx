@@ -21,6 +21,7 @@ const Navbar = () => {
             <Link to="/" className="navbar-brand" >OnlineStore</Link>
             <div className="navbar-links" >
                 {isLoggedIn && <Link to="/add-product" >   Add Product</Link>}
+                {isLoggedIn && <Link to="/low-stock">Low Stock</Link>}
                 <span>Cart ({cartCount})</span>
             </div>
             <div className="navbar-links">

@@ -52,9 +52,9 @@ const ProductForm = ({ title, initialValues = emptyForm, submitLable, onSubmit }
     };
 
     return (
-        <form onSubmit={handleSubmit} >
-            <h1 style={{ color: "aquamarine" }}> {title}</h1>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+        <form onSubmit={handleSubmit} className="form-card">
+            <h1> {title}</h1>
+            {error && <p className="form-error">{error}</p>}
             <label>Name<input name="name" value={form.name} onChange={handleChange} /></label>
             <label>Description<input name="description" value={form.description} onChange={handleChange} /></label>
             <label>Price<input name="price" value={form.price} onChange={handleChange} /></label>
