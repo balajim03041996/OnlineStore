@@ -6,6 +6,7 @@ import ProductList from "./pages/ProductList";
 import { Routes, Route } from "react-router-dom";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
+import LowStock from "./pages/LowStock";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/item/:id/edit" element={<EditProduct />} />
         <Route path="/cart" element={<Cart />} />
         <Route path ="/login" element ={<Login/>}/>
+        <Route path ="/low-stock" element={<LowStock />} />
       </Routes>
     </>
   );
