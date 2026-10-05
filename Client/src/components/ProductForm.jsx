@@ -23,7 +23,7 @@ const ProductForm = ({ title, initialValues = emptyForm, submitLable, onSubmit }
         getCategories(controller.signal)
             .then((data) => setCatergories(data))
             .catch((err) => {
-                if (err.message == "CanceledError")
+                if (err.name == "CanceledError")
                     return;
                 console.error(err);
             });
