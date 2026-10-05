@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../api/productsApi";
 import { deleteProduct } from "../api/productsApi";
-import {useCart} from "../context/CartContext";
+import { useCart } from "../context/CartContext";
 import "./ProductDetails.css";
 
 
@@ -13,13 +13,21 @@ const ProductDetails = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getProductById(id)
+        const controller = new AbortController();
+        getProductById(id, controller.)
             .then((data) => setProductDetail(data))
-            .catch((err) => setError(err.message))
+            .catch((err) => {
+                if (err.name == "CanceledError")
+                    return;
+                setError(err.message)
+            })
             .finally(() => setLoading(false));
+
+
+        return () => controller.abort();
     }, [id]);
     const navigate = useNavigate();
-    const {addToCart}= useCart();
+    const { addToCart } = useCart();
     const handleDelete = async () => {
         const ok = window.confirm(`Delete "${productDetail.name}" ? This cannot be undone.`);
         if (!ok) {
@@ -50,8 +58,8 @@ const ProductDetails = () => {
                 <h2 className="details-price">₹{productDetail.price}</h2>
                 <p className="details-stock">{productDetail.stockQuantity > 0 ? `${productDetail.stockQuantity} in stock` : "Out of stock"}</p>
                 <div className="details-actions">
-                    <button onClick={()=> addToCart(productDetail)}>Add to Cart</button>
-                    <button className="btn-outline" onClick={()=>navigate(`/item/${productDetail.id}/edit`)}>Edit Product </button>
+                    <button onClick={() => addToCart(productDetail)}>Add to Cart</button>
+                    <button className="btn-outline" onClick={() => navigate(`/item/${productDetail.id}/edit`)}>Edit Product </button>
                     <button className="btn-danger" onClick={handleDelete} > Delete product</button>
                 </div>
             </div>

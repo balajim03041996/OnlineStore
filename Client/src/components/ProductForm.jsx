@@ -19,7 +19,18 @@ const ProductForm = ({ title, initialValues = emptyForm, submitLable, onSubmit }
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getCategories().then((data) => setCatergories(data));
+        const controller = new AbortController();
+        getCategories(controller.signal)
+            .then((data) => setCatergories(data))
+            .catch((err) => {
+                if (err.message == "CanceledError")
+                    return;
+                console.error(err);
+            });
+
+
+        return () => controller.abort();
+
     }, []);
 
     const handleChange = (e) => {
