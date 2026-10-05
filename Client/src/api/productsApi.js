@@ -2,12 +2,12 @@ import api from "./axios";
 
 
 // get /api/prducts- all products
-export const getProducts = async () => {
-    const response = await api.get('/products');
+export const getProducts = async (signal) => {
+    const response = await api.get('/products',{signal});
     return response.data; // axios puts json body in .data
 }
-export const getProductById = async (id) => {
-    const response = await api.get(`/products/${id}`);
+export const getProductById = async (id, signal) => {
+    const response = await api.get(`/products/${id}`,{signal});
     return response.data;   // axios puts json body in data.
 }
 export const createProduct = async (product) => {

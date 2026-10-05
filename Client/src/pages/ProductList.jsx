@@ -9,10 +9,18 @@ const ProductList = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getProducts()
+        const controller = new AbortController();//cancel button for this page
+        getProducts(controller.signal)
             .then((data) => setproducts(data))
-            .catch((err) => setError(err.message))
-            .finally(() => setLoading(false))
+            .catch((err) => {
+                if (err.name == "CanceledError")
+                    return;//cancelled on purpose
+                setError(err.message)
+            })
+            .finally(() => setLoading(false));
+
+
+        return () => controller.abort();// page closed so cancel http request
     }, []);
     if (loading) {
         return <p className="status"> Loading Products...</p>
@@ -26,7 +34,7 @@ const ProductList = () => {
                 <h1>Products</h1>
                 <span className="product-count">{products.length} products</span>
             </div>
-            <div  className="product-grid">{products.map((x => (
+            <div className="product-grid">{products.map((x => (
                 <ProductCard key={x.id} product={x} />
             )))}</div>
         </div>

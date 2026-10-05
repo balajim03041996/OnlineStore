@@ -9,7 +9,15 @@ const EditProduct = () => {
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        getProductById(id).then((data) => setProduct(data));
+        const controller = new AbortController();
+        getProductById(id, controller.signal)
+            .then((data) => setProduct(data))
+            .catch((err) => {
+                if (err.name == "CanceledError")
+                    return;
+                console.error(err);
+            });
+        return () => controller.abort();
     }, [id])
     const handleUpdate = async (updated) => {
         await updateProduct(id, updated);
