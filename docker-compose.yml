@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Docker_Local_Pass123!"
+    ports:
+      - "1433:1433"
+    volumes:                          
+      - sqldata:/var/opt/mssql        
+
+  api:
+    build: ./Server/OnlineStore.API
+    ports:
+      - "8080:8080"
+    environment:
+      Jwt__Key: "docker-local-test-key-1234567890-abcdefgh"
+      ConnectionStrings__defaultConnection: "Server=db,1433;Database=OnlineStore;User Id=sa;Password=Docker_Local_Pass123!;TrustServerCertificate=True"
+    depends_on:
+      - db
+volumes:                            
+    sqldata:

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 
 // build in method to use CartContext object as context object 
@@ -6,7 +6,14 @@ const CartContext = createContext(null);
 // received children here so, they can acess ther belo defined methods 
 export const CartProvider = ({ children }) => {
     //[ {product: iPhone, quantity: 2}, {product: Samsung, quantity: 1} ]
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(() => {
+        const saved = localStorage.getItem("cart");// read saved cart
+        return saved ? JSON.parse(saved) : [];
+    });
+    // to save last items data to prevent loosiing data in refresh , saving in local storage 
+    useEffect(()=>{
+        localStorage.setItem("cart", JSON.stringify(items));
+    },[items]);
     //methods to  add item , if already threse jus add count 
     const addToCart = (product) => {
         setItems((prev) => {
@@ -37,10 +44,10 @@ export const CartProvider = ({ children }) => {
     };
 
     const cartCount = items.reduce((sum, x) => sum + x.quantity, 0);// recalculate the total list count 
-    const cartTotal = items.reduce((sum, x)=> sum + x.quantity * x.product.price,0);
+    const cartTotal = items.reduce((sum, x) => sum + x.quantity * x.product.price, 0);
     return (
 
-        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, decreaseQuantity , cartTotal}}>{/*// this component will return a context object , we can include or wrap where we need to use inside */}
+        <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, decreaseQuantity, cartTotal }}>{/*// this component will return a context object , we can include or wrap where we need to use inside */}
             {children}
         </CartContext.Provider>
     );

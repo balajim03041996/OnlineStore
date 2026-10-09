@@ -17,7 +17,10 @@ const ProductList = () => {
                     return;//cancelled on purpose
                 setError(err.message)
             })
-            .finally(() => setLoading(false));
+            .finally(() =>{
+                if(!controller.signal.aborted)
+                    setLoading(false)
+            });
 
 
         return () => controller.abort();// page closed so cancel http request
