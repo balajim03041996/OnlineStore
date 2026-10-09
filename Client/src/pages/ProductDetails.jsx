@@ -14,7 +14,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         const controller = new AbortController();
-        getProductById(id, controller.)
+        getProductById(id, controller.signal)
             .then((data) => setProductDetail(data))
             .catch((err) => {
                 if (err.name == "CanceledError")
