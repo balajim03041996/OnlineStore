@@ -8,6 +8,9 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import LowStock from "./pages/LowStock";
 import HooksDemo from "./pages/HooksDemo";
+import TodoDrill from "./practise/TodoDrill";
+import UserDrill from "./practise/UsersDrill";
+import ShoppingDrill from "./practise/ShoppingDrill"
 
 const App = () => {
   return (
@@ -22,6 +25,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/low-stock" element={<LowStock />} />
         <Route path="/hook-demo" element={<HooksDemo />} />
+        <Route path="/TodoList" element={<TodoDrill />} />
+        <Route path="/users" element={<UserDrill />} />
+        <Route path="/Shopping" element={<ShoppingDrill />} />
       </Routes>
     </>
   );

@@ -13,7 +13,7 @@ const Child = memo(({ propsData }) => {
 const HooksDemo = () => {
     const [count, setCount] = useState(0);
 
-    const sayHi = useCallback(() => console.log("HhiuI"),[]);
+    const sayHi = useCallback(() => console.log("Hi"),[]);
 
 
     return (<div>
