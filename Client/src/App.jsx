@@ -11,6 +11,8 @@ import HooksDemo from "./pages/HooksDemo";
 import TodoDrill from "./practise/TodoDrill";
 import UserDrill from "./practise/UsersDrill";
 import ShoppingDrill from "./practise/ShoppingDrill"
+import MarksDrill from "./practise/MarksDrill"
+import ExpenseDrill from "./practise/ExpenseDrill";
 
 const App = () => {
   return (
@@ -28,6 +30,8 @@ const App = () => {
         <Route path="/TodoList" element={<TodoDrill />} />
         <Route path="/users" element={<UserDrill />} />
         <Route path="/Shopping" element={<ShoppingDrill />} />
+        <Route path="/StudentDetails" element={<MarksDrill />} />
+         <Route path="/ExpenseTracker" element={<ExpenseDrill />} />
       </Routes>
     </>
   );
