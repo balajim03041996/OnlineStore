@@ -46,8 +46,8 @@ const UserSearchDrill = () => {
         }
     }, [user])
 
+    // return cond..
     let content;
-
     if (loading)
         content = <p>Loading...</p>;
     else if (userData.length > 0) {
@@ -58,7 +58,7 @@ const UserSearchDrill = () => {
                 </li>)}
         </ul>;
     }
-    else if (!loading && user.trim() !== "" && userData.length === 0) {
+    else if (user.trim() !== "") {
         content = <p>No users found</p>
     }
     else {
