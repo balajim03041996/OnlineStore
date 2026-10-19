@@ -14,6 +14,7 @@ import ShoppingDrill from "./practise/ShoppingDrill"
 import MarksDrill from "./practise/MarksDrill"
 import ExpenseDrill from "./practise/ExpenseDrill";
 import SearchDrill from "./practise/SearchDrill";
+import UserSearchDrill from "./practise/UserSearchDrill";
 
 const App = () => {
   return (
@@ -34,6 +35,8 @@ const App = () => {
         <Route path="/StudentDetails" element={<MarksDrill />} />
         <Route path="/ExpenseTracker" element={<ExpenseDrill />} />
         <Route path="/Search" element={<SearchDrill />} />
+        <Route path="/UserSearch" element={<UserSearchDrill />} />
+
       </Routes>
     </>
   );
