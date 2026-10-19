@@ -46,22 +46,28 @@ const UserSearchDrill = () => {
         }
     }, [user])
 
+    let content;
+
+    if (loading)
+        content = <p>Loading...</p>;
+    else if (userData.length > 0) {
+        content = <ul>
+            {userData.map((x) =>
+                <li key={x.id}>
+                    {x.firstName} {x.lastName} - {x.email}
+                </li>)}
+        </ul>;
+    }
+    else if (!loading && user.trim() !== "" && userData.length === 0) {
+        content = <p>No users found</p>
+    }
+    else {
+        content = null;
+    }
 
     return (<div >User Search
         <input type="text" value={user} onChange={(e) => setUser(e.target.value)} />
-        {/* list: only when we have users */}
-        {userData.length > 0 && (
-            <ul>
-                {userData.map((x) =>
-                    <li key={x.id}>
-                        {x.firstName} {x.lastName} - {x.email}
-                    </li>)}
-            </ul>
-        )}
-        {/* no results: search finished, box not empty, nothing found */}
-        {!loading && user.trim() !== "" && userData.length === 0 && <p>No users found</p>}
-        {loading && <p>Loading...</p>}
-
+        {content}
     </div>);
 
 };
