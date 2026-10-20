@@ -15,6 +15,7 @@ import MarksDrill from "./practise/MarksDrill"
 import ExpenseDrill from "./practise/ExpenseDrill";
 import SearchDrill from "./practise/SearchDrill";
 import UserSearchDrill from "./practise/UserSearchDrill";
+import StopwatchDrill from "./practise/StopwatchDrill";
 
 const App = () => {
   return (
@@ -29,14 +30,14 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/low-stock" element={<LowStock />} />
         <Route path="/hook-demo" element={<HooksDemo />} />
-        <Route path="/TodoList" element={<TodoDrill />} />
+        <Route path="/todolist" element={<TodoDrill />} />
         <Route path="/users" element={<UserDrill />} />
-        <Route path="/Shopping" element={<ShoppingDrill />} />
-        <Route path="/StudentDetails" element={<MarksDrill />} />
-        <Route path="/ExpenseTracker" element={<ExpenseDrill />} />
-        <Route path="/Search" element={<SearchDrill />} />
-        <Route path="/UserSearch" element={<UserSearchDrill />} />
-
+        <Route path="/shopping" element={<ShoppingDrill />} />
+        <Route path="/studentdetails" element={<MarksDrill />} />
+        <Route path="/expensetracker" element={<ExpenseDrill />} />
+        <Route path="/search" element={<SearchDrill />} />
+        <Route path="/usersearch" element={<UserSearchDrill />} />
+        <Route path="/stopwatch" element={<StopwatchDrill />} />
       </Routes>
     </>
   );
