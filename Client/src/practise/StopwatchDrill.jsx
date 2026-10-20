@@ -28,12 +28,12 @@ const StopwatchDrill = () => {
 
     const convertToMinutes = () => {
         const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return <div>{String(min).padStart(2, "0")}mm: {sec}ss</div>
+        const sec = seconds % 60;
+        return <div>{String(min).padStart(2, "0")}mm: {String(sec).padStart(2, "0")}ss</div>
     };
 
     return (<div>
-        <div>{seconds > 0 ? convertToMinutes() : ""}</div>
+        <div>{convertToMinutes()}</div>
         <p><button onClick={() => start()}>start</button></p>
         <p><button onClick={() => stop()}>stop</button></p>
         <p><button onClick={() => reset()}>reset</button></p>
