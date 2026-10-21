@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using OnlineStore.Functions.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,11 @@ namespace OnlineStore.Functions.OnlineStore
     public class LowStockFunction
     {
         private readonly ILogger<LowStockFunction> _logger;
-        private static readonly HttpClient _http = new HttpClient();
-        public LowStockFunction(ILogger<LowStockFunction> logger)
+        private readonly ILowStockService _lowStockService;
+        public LowStockFunction(ILogger<LowStockFunction> logger, ILowStockService lowStockService)
         {
             _logger = logger;
+            _lowStockService = lowStockService;
         }
 
 
@@ -28,20 +30,18 @@ namespace OnlineStore.Functions.OnlineStore
         {
             // Define the low stock threshold
             int threshold = int.TryParse(req.Query["threshold"], out var t) ? t : 40;
-
-            string? apiBaseUrl = Environment.GetEnvironmentVariable("ApiBaseUrl");
-            if (string.IsNullOrEmpty(apiBaseUrl))
+            try
             {
-                _logger.LogError("ApiBaseUrl setting is missing");
-                return new ObjectResult("ApiBaseUrl setting is missing") { StatusCode = 500 };
+                var lowStock = await _lowStockService.GetLowStockAsync(threshold);
+
+                _logger.LogInformation("Found {Count} low-stock products below {Threshold}", lowStock.Count, threshold);
+                return new OkObjectResult(lowStock);
             }
-            var products = await _http.GetFromJsonAsync<List<ProductStock>>($"{apiBaseUrl}/products");
-
-            var lowStock = products!.Where(p => p.StockQuantity < threshold).ToList();
-
-            _logger.LogInformation("Found {Count} low-stock products below {Threshold}", lowStock.Count, threshold);
-            return new OkObjectResult(lowStock);
-
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Low stock check failed");
+                return new ObjectResult("...") { StatusCode = 500 };
+            }
         }
         // only the fields we need from the API's JSON
         public record ProductStock(int Id, string Name, int StockQuantity);
