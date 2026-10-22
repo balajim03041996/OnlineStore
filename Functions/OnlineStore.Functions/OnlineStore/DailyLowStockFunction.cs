@@ -27,7 +27,7 @@ namespace OnlineStore.Functions.OnlineStore
         }
 
         [Function("DailyLowStock")]
-        public async Task Run([TimerTrigger("0 */1 * * * *")] TimerInfo timer)
+        public async Task Run([TimerTrigger("%LowStockSchedule%")] TimerInfo timer)
         {
             _logger.LogInformation("stock check ran at {Time}", DateTime.Now);
 

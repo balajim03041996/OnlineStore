@@ -19,6 +19,7 @@ if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPLICATIONINSIGHT
         .UseAzureMonitorExporter();
 }
 builder.Services.AddScoped<ILowStockService, LowStockService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 var busConnection= Environment.GetEnvironmentVariable("LowStockBusConnection");
 builder.Services.AddSingleton(new ServiceBusClient(busConnection));
 builder.Build().Run();
