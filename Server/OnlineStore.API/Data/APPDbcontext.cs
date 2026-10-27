@@ -11,6 +11,8 @@ namespace OnlineStore.API.Data
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Product> Products => Set<Product>();
 
+        public DbSet<User> Users => Set<User>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,6 +28,13 @@ namespace OnlineStore.API.Data
             modelBuilder.Entity<Product>(x => x.Property(a => a.CreatedAt).HasDefaultValueSql("SYSUTCDATETIME()"));// created at should be current date by default
 
             modelBuilder.Entity<Product>(x => x.HasOne(a => a.Category).WithMany(b => b.Products).HasForeignKey(c => c.CategoryId).OnDelete(DeleteBehavior.Restrict));// cant delete category if there are products in that category
+
+            //rules for user
+            modelBuilder.Entity<User>(x => x.Property(y => y.FullName).HasMaxLength(100).IsRequired());
+            modelBuilder.Entity<User>(x=> x.Property(y=> y.Email).HasMaxLength(200).IsRequired());
+            modelBuilder.Entity<User>(x => x.HasIndex(y => y.Email).IsUnique());
+            modelBuilder.Entity<User>(x => x.Property(y => y.PasswordHash).IsRequired());
+            modelBuilder.Entity<User>(x => x.Property(y => y.CreatedAt).HasDefaultValueSql("SYSUTCDATETIME()"));
 
 
             // ---------- Seed data ----------
