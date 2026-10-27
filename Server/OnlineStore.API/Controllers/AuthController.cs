@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using OnlineStore.API.DTOs;
+using OnlineStore.API.Services;
 using System.Security.Claims;
 using System.Text;
 
@@ -11,10 +12,12 @@ namespace OnlineStore.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+        private readonly IAuthService _authService;
         private readonly IConfiguration _config;
-        public AuthController(IConfiguration config)
+        public AuthController(IConfiguration config, IAuthService authService)
         {
             _config = config;
+            _authService = authService;
         }
         // POST api/auth/login
         [HttpPost("login")]
@@ -43,6 +46,17 @@ namespace OnlineStore.API.Controllers
 
             string token = new JsonWebTokenHandler().CreateToken(tokenDescriptor);
             return Ok(new { token, expiresAt = expires });
+        }
+
+        // POST api/auth/register
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterRequestDto request)
+        {
+            bool status = await _authService.RegisterAsync(request);
+            if (status)
+                return StatusCode(StatusCodes.Status201Created);
+            else
+                return Conflict("Email already registered");
         }
     }
 }
