@@ -22,3 +22,20 @@ Content-Type: application/json
 ### 5) Delete WITH the token → expect 404 (auth passed; product 999 doesn't exist)
 DELETE {{baseUrl}}/api/products/999
 Authorization: Bearer {{login.response.body.$.token}}
+### 6) Register a new customer → expect 201
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{ "fullName": "Ravi Kumar", "email": "ravi@test3.com", "password": "Password1", "confirmPassword": "Password1" }
+
+### 7) Same email again → expect 409
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{ "fullName": "Ravi Again", "email": "RAVI@test.com ", "password": "Password1", "confirmPassword": "Password1" }
+
+### 8) Bad data → expect 400 with an error list
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{ "fullName": "", "email": "notanemail", "password": "123", "confirmPassword": "999" }
