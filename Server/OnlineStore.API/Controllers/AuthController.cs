@@ -21,12 +21,11 @@ namespace OnlineStore.API.Controllers
         }
         // POST api/auth/login
         [HttpPost("login")]
-        public IActionResult Login(LoginRequestDto request)
+        public async Task<IActionResult> Login(LoginRequestDto request)
         {
-            if (request.Username != _config["Admin:Username"] || request.Password != _config["Admin:Password"])
-            {
-                return Unauthorized("Invalid username or password");
-            }
+            var user = await _authService.ValidateUserAsync(request.Email, request.Password);
+            if (user == null)
+                return Unauthorized("Invalid email or password");
 
             var expires = DateTime.UtcNow.AddMinutes(_config.GetValue<int>("Jwt:ExpiryMinutes"));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
@@ -35,8 +34,10 @@ namespace OnlineStore.API.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, request.Username),
-                    new Claim(ClaimTypes.Role, "Admin")
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),// user id, read later for "my orders"
+                    new Claim(ClaimTypes.Name, user.FullName),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role)// role from DB, not hard-coded
                 }),
                 Issuer = _config["Jwt:Issuer"],
                 Audience = _config["Jwt:Audience"],

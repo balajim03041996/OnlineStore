@@ -39,3 +39,25 @@ POST {{baseUrl}}/api/auth/register
 Content-Type: application/json
 
 { "fullName": "", "email": "notanemail", "password": "123", "confirmPassword": "999" }
+### Register my admin account
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{ "fullName": "Balaji M", "email": "balajim03041996@gmail.com", "password": "onlineStore9822", "confirmPassword": "onlineStore9822" }
+### 9) Login with a DB user → expect 200 + token
+# @name dblogin
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "balajim03041996@gmail.com", "password": "onlineStore9822" }
+
+### 10) Wrong password → expect 401
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "balajim03041996@gmail.com", "password": "wrong12345" }
+
+### 11) Admin delete with the DB token → expect 404 (allowed; product 999 doesn't exist)
+DELETE {{baseUrl}}/api/products/999
+Authorization: Bearer {{dblogin.response.body.$.token}}
+
