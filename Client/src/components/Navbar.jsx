@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
     const { cartCount } = useCart();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -20,8 +20,8 @@ const Navbar = () => {
         <nav className="navbar " >
             <Link to="/" className="navbar-brand" >OnlineStore</Link>
             <div className="navbar-links" >
-                {isLoggedIn && <Link to="/add-product" >   Add Product</Link>}
-                {isLoggedIn && <Link to="/low-stock">Low Stock</Link>}
+                {isLoggedIn && isAdmin && <Link to="/add-product" >   Add Product</Link>}
+                {isLoggedIn && isAdmin && <Link to="/low-stock">Low Stock</Link>}
                 <span>Cart ({cartCount})</span>
             </div>
             <div className="navbar-links">
