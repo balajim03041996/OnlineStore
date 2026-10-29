@@ -24,6 +24,7 @@ namespace OnlineStore.API.Services
             if (isAlreadyExistMail)
                 return false;
 
+            user.DateOfBirth = request.DateOfBirth!.Value;
             var hasher = new PasswordHasher<User>();
             user.PasswordHash = hasher.HashPassword(user, request.Password);
             _dbContext.Add(user);

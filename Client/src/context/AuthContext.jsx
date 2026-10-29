@@ -2,6 +2,7 @@ import { useState, useContext, createContext } from "react";
 import { login as loginApi } from "../api/authApi";
 
 const AuthContext = createContext(null);
+const ROLE_CLAIM = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
 // export ? AuthProvider (eg wifi )
 export const AuthProvider = ({ children }) => {
@@ -22,7 +23,6 @@ export const AuthProvider = ({ children }) => {
     const isLoggedIn = !!token;
     //read role from token paylaod admin or customer 
     const payload = token ? JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))) : null;
-    const ROLE_CLAIM = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
     const role = payload?.[ROLE_CLAIM];
 
     const isAdmin = role === 'Admin';

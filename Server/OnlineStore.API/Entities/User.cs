@@ -1,4 +1,6 @@
-﻿namespace OnlineStore.API.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace OnlineStore.API.Entities
 {
     public class User
     {
@@ -12,5 +14,7 @@
         public string Role { get; set; } = "Customer";
 
         public DateTime CreatedAt { get; set; }
+
+        public DateOnly? DateOfBirth { get; set; }
     }
 }

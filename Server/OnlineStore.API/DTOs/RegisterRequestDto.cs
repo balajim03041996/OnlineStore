@@ -17,7 +17,8 @@ namespace OnlineStore.API.DTOs
         [MinLength(8)]
         public string Password { get; set; } = string.Empty;
 
-        [Compare(nameof(Password))]
-        public string ConfirmPassword { get; set; } = string.Empty;
+        [Required]
+        public DateOnly? DateOfBirth { get; set; }
+
     }
 }
