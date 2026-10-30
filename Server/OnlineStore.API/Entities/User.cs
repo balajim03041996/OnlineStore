@@ -15,6 +15,6 @@ namespace OnlineStore.API.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        public DateOnly? DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
     }
 }

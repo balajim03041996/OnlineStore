@@ -2,7 +2,7 @@
 
 namespace OnlineStore.API.DTOs
 {
-    public class RegisterRequestDto
+    public class RegisterRequestDto : IValidatableObject
     {
         [Required]
         [MaxLength(100)]
@@ -19,6 +19,13 @@ namespace OnlineStore.API.DTOs
 
         [Required]
         public DateOnly? DateOfBirth { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var cutoff = DateOnly.FromDateTime(DateTime.UtcNow).AddYears(-18);
+            if (DateOfBirth > cutoff)
+                yield return new ValidationResult("You must be at least 18", new[] { nameof(DateOfBirth) });
+        }
 
     }
 }
