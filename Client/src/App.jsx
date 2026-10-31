@@ -19,6 +19,7 @@ import StopwatchDrill from "./practise/StopwatchDrill";
 import MemoDrill from "./practise/MemoDrill";
 import EmployeeDrill from "./practise/EmployeeDrill";
 import RegisterDrill from "./practise/RegisterDrill";
+import Register from "./pages/Register";
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/memo" element={<MemoDrill />} />
         <Route path="/employee" element={<EmployeeDrill />} />
         <Route path="/register" element={<RegisterDrill />} />
+        <Route path="/signup" element={<Register />} />
 
       </Routes>
     </>

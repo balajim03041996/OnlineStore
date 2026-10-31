@@ -20,14 +20,17 @@ const Navbar = () => {
         <nav className="navbar " >
             <Link to="/" className="navbar-brand" >OnlineStore</Link>
             <div className="navbar-links" >
-                {isLoggedIn && isAdmin && <Link to="/add-product" >   Add Product</Link>}
-                {isLoggedIn && isAdmin && <Link to="/low-stock">Low Stock</Link>}
+                {isAdmin && <Link to="/add-product" >   Add Product</Link>}
+                {isAdmin && <Link to="/low-stock">Low Stock</Link>}
                 <span>Cart ({cartCount})</span>
             </div>
             <div className="navbar-links">
                 <Link to="/cart" > Cart</Link>
                 {isLoggedIn ? <button onClick={handleLogout}>logout</button>
-                    : <Link to="/login">login</Link>}
+                    : <>
+                        <Link to="/login">login</Link>
+                        <Link to="/signup">signup</Link>
+                    </>}
             </div>
         </nav >
     );
