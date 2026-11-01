@@ -20,6 +20,7 @@ import MemoDrill from "./practise/MemoDrill";
 import EmployeeDrill from "./practise/EmployeeDrill";
 import RegisterDrill from "./practise/RegisterDrill";
 import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -28,11 +29,11 @@ const App = () => {
       <Routes>    {/* (most specific) match, */}
         <Route path="/" element={<ProductList />} />
         <Route path="/item/:id" element={<ProductDetails />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/item/:id/edit" element={<EditProduct />} />
+        <Route path="/add-product" element={<ProtectedRoute adminOnly><AddProduct /></ProtectedRoute>} />
+        <Route path="/item/:id/edit" element={<ProtectedRoute adminOnly><EditProduct /></ProtectedRoute>} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/low-stock" element={<LowStock />} />
+        <Route path="/low-stock" element={<ProtectedRoute adminOnly><LowStock /></ProtectedRoute>} />
         <Route path="/hook-demo" element={<HooksDemo />} />
         <Route path="/todolist" element={<TodoDrill />} />
         <Route path="/users" element={<UserDrill />} />
