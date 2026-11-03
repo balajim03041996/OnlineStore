@@ -1,10 +1,10 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useForm from "../hooks/useForm";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const { valuesUF: form, handleChangeUF: handleChange } = useForm({ email: "", password: "" });
     const [error, setError] = useState(null);
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Login = () => {
         e.preventDefault();
         setError(null);
         try {
-            await login(email, password);
+            await login(form.email, form.password);
             navigate("/");
         }
         catch (err) {
@@ -23,8 +23,8 @@ const Login = () => {
     return (
         <form onSubmit={handleSubmit} className="form-card">
             <h2> Admin login</h2>
-            <input type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="email" placeholder="email" name="email" value={form.email} onChange={(e) => handleChange(e)} />
+            <input type="password" placeholder="Password" name="Password" value={form.password} onChange={(e) => handleChange(e)} />
             <button type="submit">Login</button>
             {error && <p className="form-error">{error}</p>}
         </form >

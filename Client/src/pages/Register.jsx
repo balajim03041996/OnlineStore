@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { register } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
+import useForm from "../hooks/useForm";
 
 
 const EmptyCredential = {
@@ -14,7 +15,8 @@ const EmptyCredential = {
 
 
 const Register = () => {
-    const [credential, setCredential] = useState(EmptyCredential);
+    //const [credential, setCredential] = useState(EmptyCredential);
+    const {valuesUF: credential, handleChangeUF: handleChange}= useForm(EmptyCredential);
     const [errCrd, setErrCrd] = useState({});
     const [serverError, setServerError] = useState("");
     const navigate = useNavigate();
@@ -64,10 +66,10 @@ const Register = () => {
         }
     };
 
-    const handleChange = (e) => {
+   /* const handleChange = (e) => {
         const { name, value } = e.target;
         setCredential({ ...credential, [name]: value });
-    };
+    };*/
 
     return (<form onSubmit={(e) => handleSubmit(e)} className="form-card">
         <h2>Sign up</h2>
