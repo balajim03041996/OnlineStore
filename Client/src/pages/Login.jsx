@@ -17,14 +17,14 @@ const Login = () => {
             navigate("/");
         }
         catch (err) {
-            setError(err.message + "Invalid email or password");
+            setError("Invalid email or password");
         }
     };
     return (
         <form onSubmit={handleSubmit} className="form-card">
             <h2> Admin login</h2>
             <input type="email" placeholder="email" name="email" value={form.email} onChange={(e) => handleChange(e)} />
-            <input type="password" placeholder="Password" name="Password" value={form.password} onChange={(e) => handleChange(e)} />
+            <input type="password" placeholder="password" name="Password" value={form.password} onChange={(e) => handleChange(e)} />
             <button type="submit">Login</button>
             {error && <p className="form-error">{error}</p>}
         </form >
