@@ -22,9 +22,9 @@ const Login = () => {
     };
     return (
         <form onSubmit={handleSubmit} className="form-card">
-            <h2> Admin login</h2>
+            <h2> login</h2>
             <input type="email" placeholder="email" name="email" value={form.email} onChange={(e) => handleChange(e)} />
-            <input type="password" placeholder="password" name="Password" value={form.password} onChange={(e) => handleChange(e)} />
+            <input type="password" placeholder="Password" name="password" value={form.password} onChange={(e) => handleChange(e)} />
             <button type="submit">Login</button>
             {error && <p className="form-error">{error}</p>}
         </form >
